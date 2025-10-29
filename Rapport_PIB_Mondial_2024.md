@@ -1,6 +1,6 @@
-
-EL MEHDI BENCHEHBA 
+ 
 <img src="signal-2025-05-10-050004_002.png" style="height:464px;margin-right:432px"/>
+                     EL MEHDI BENCHEHBA
 # RAPPORT D'ANALYSE DU PIB MONDIAL 2024
 
 **Date du rapport :** Octobre 2024  
