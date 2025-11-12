@@ -1,5 +1,3 @@
-# PROMPT AMÉLIORÉ ET DÉTAILLÉ
-
 ## 📊 DESCRIPTION DU DATASET POKER HAND
 
 ### **Contexte Général**
