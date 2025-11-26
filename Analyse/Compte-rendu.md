@@ -1,120 +1,52 @@
-# -*- coding: utf-8 -*-
-import warnings
-warnings.filterwarnings('ignore')
+# Compte Rendu Analyse MyAnimeList
 
-import pandas as pd
-import numpy as np
-import seaborn as sns
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-plt.switch_backend('Agg')
+## Introduction
 
-sns.set(style='whitegrid', palette='muted', color_codes=True)
+Ce projet vise à **explorer** et **analyser** un dataset issu de MyAnimeList, une base de données d’animes, à l’aide de Python (Pandas, Seaborn, Scikit-Learn…). L’accent est mis sur la compréhension des variables, la visualisation des données et la création d’un modèle de prédiction de score.
 
-print(f'pandas version: {pd.__version__}')
-print(f'numpy version: {np.__version__}')
-print(f'seaborn version: {sns.__version__}')
-print(f'matplotlib version: {matplotlib.__version__}')
+## Objectifs
+- Charger et nettoyer le dataset
+- Explorer les différentes variables (Score, Type, Épisodes…)
+- Visualiser les distributions et relations
+- Modéliser le score avec une régression linéaire
+- Évaluer le modèle
 
-df = pd.read_csv('/kaggle/input/myanimelist-2025/mal_anime.csv', encoding='utf-8')
+## Méthodes
 
-print('Shape of the dataset:', df.shape)
-print('Columns in the dataset:', df.columns.tolist())
-print(df.head())
+### Traitement des données
+- Chargement via pandas (`read_csv`)
+- Nettoyage de la colonne `Episodes` : conversion en valeur numérique et gestion des valeurs manquantes.
+- Extraction de l’année de première diffusion (`PremieredYear`) à partir de chaînes de caractères.
+- Conversion en valeurs numériques des colonnes Popularity, Members, Favorites.
+- Préparation de la matrice de features et de la cible pour la modélisation.
 
-print('Unique values in Episodes column sample:', df['Episodes'].dropna().unique()[:10])
-print('Unique values in Premiered column sample:', df['Premiered'].dropna().unique()[:10])
+### Exploration et visualisations
+- **Aperçu du dataset** (head, .shape, colonnes)
+- Histogramme de la distribution des scores
+- Countplot des types d’anime
+- Boxplot pour repérer les valeurs atypiques sur le score
+- Cartes de corrélation (heatmap, pairplot) pour explorer les liens entre variables
+- Statistiques descriptives sur les colonnes principales
 
-df['Episodes_clean'] = pd.to_numeric(df['Episodes'], errors='coerce')
-episodes_missing = df['Episodes_clean'].isnull().sum()
-print('Missing numeric Episodes after conversion:', episodes_missing)
+### Modélisation (régression linéaire)
+- Features : `Episodesclean` et `PremieredYear`
+- Split en train/test (20% test)
+- Entraînement d’un modèle de régression linéaire (Scikit-learn)
+- Évaluation : Mean Squared Error (MSE) et R²
+- Affichage graphique : valeurs réelles vs prédites (scatterplot)
 
-def extract_year(premiered_str):
-    try:
-        return int(premiered_str[-4:])
-    except:
-        return np.nan
+## Résultats
 
-df['Premiered_Year'] = df['Premiered'].dropna().apply(extract_year)
-df['Premiered_Year'] = df['Premiered_Year'].combine_first(df['Released_Year'])
+- **Distribution des scores** : majoritairement centrée, quelques outliers
+- **Nombre d’animes par type** : forte représentation de certaines catégories (série, film…)
+- **Corrélations** : résultats généralement faibles entre features et score
+- **Performance du modèle** :
+    - Mean Squared Error modéré
+    - Un R² très faible, le score des animes s’expliquant peu par `Episodesclean` et `PremieredYear`
 
-for col in ['Popularity', 'Members', 'Favorites']:
-    df[col + '_num'] = pd.to_numeric(df[col], errors='coerce')
+## Conclusion
 
-print(df[['Episodes', 'Episodes_clean', 'Premiered', 'Premiered_Year',
-          'Popularity_num', 'Members_num', 'Favorites_num']].head())
-
-plt.figure(figsize=(10, 6))
-sns.histplot(df['Score'], kde=True, bins=30, color='skyblue')
-plt.title('Distribution of Anime Scores')
-plt.xlabel('Score')
-plt.ylabel('Frequency')
-plt.tight_layout()
-plt.show()
-
-plt.figure(figsize=(10, 6))
-sns.countplot(data=df, x='Type', palette='viridis')
-plt.title('Count of Anime Types')
-plt.xlabel('Type')
-plt.ylabel('Count')
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.show()
-
-plt.figure(figsize=(10, 6))
-sns.boxplot(x=df['Score'], color='lightgreen')
-plt.title('Box Plot of Anime Scores')
-plt.xlabel('Score')
-plt.tight_layout()
-plt.show()
-
-numeric_df = df[['Episodes_clean', 'Premiered_Year', 'Popularity_num',
-                 'Members_num', 'Favorites_num', 'Score']].dropna()
-
-if numeric_df.shape[1] >= 2:
-    sns.pairplot(numeric_df)
-    plt.show()
-
-if numeric_df.shape[1] >= 4:
-    plt.figure(figsize=(10, 8))
-    corr = numeric_df.corr()
-    sns.heatmap(corr, annot=True, fmt='.2f', cmap='coolwarm')
-    plt.title('Correlation Heatmap of Numeric Features')
-    plt.tight_layout()
-    plt.show()
-
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
-
-features = ['Episodes_clean', 'Premiered_Year']
-target = 'Score'
-
-model_data = df[features + [target]].dropna()
-
-X = model_data[features]
-y = model_data[target]
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-lr_model = LinearRegression()
-lr_model.fit(X_train, y_train)
-
-y_pred = lr_model.predict(X_test)
-
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-
-print('Mean Squared Error:', mse)
-print('R2 Score:', r2)
-
-plt.figure(figsize=(8, 6))
-plt.scatter(y_test, y_pred, alpha=0.6, color='coral')
-plt.xlabel('Actual Score')
-plt.ylabel('Predicted Score')
-plt.title('Actual vs Predicted Anime Scores')
-plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], color='blue', lw=2)
-plt.tight_layout()
-plt.show()
-
+- Le nettoyage et la préparation sont cruciaux pour toute analyse.
+- La corrélation faible entre variables expliquant le score implique que d’autres facteurs déterminants sont absents ou non pris en compte.
+- L’usage d’autres méthodes (features ou modèles) serait nécessaire pour améliorer la prédiction.
+- La visualisation permet d’avoir une vue claire sur la qualité et la structure du dataset.
