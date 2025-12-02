@@ -62,7 +62,4 @@ Ce projet analyse un dataset comprenant des informations sur des véhicules Toyo
 - Des approfondissements seraient nécessaires pour intégrer davantage de facteurs et améliorer la prédiction, notamment via des modèles non linéaires ou des méthodes d’ensemble.
 - Les visualisations aident à mieux comprendre la structure des données et à présenter clairement les résultats.
 
----
-
-Ce compte rendu peut être copié et sauvegardé dans un fichier `compte_rendu_analyse2.md` pour une utilisation directe.
 
