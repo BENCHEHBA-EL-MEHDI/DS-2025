@@ -1,3 +1,7 @@
+<img src="signal-2025-05-10-050004_002.png" style="height:464px;margin-right:432px"/>
+BENCHEHBA EL MEHDI / CAC G1 / 24011415
+
+
 # 🛒 Analyse de Données E-commerce & Modélisation Prédictive
 
 Ce projet présente une analyse approfondie d'un jeu de données de vente en ligne (produits électroniques). L'objectif est de comprendre les tendances de consommation, la distribution des prix, les corrélations entre variables et d'appliquer un modèle de classification supervisée pour segmenter les produits.
