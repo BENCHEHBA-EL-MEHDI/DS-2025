@@ -73,13 +73,15 @@ Ce travail garantit des données propres et prêtes pour l’analyse statistique
 L’analyse exploratoire apporte une compréhension descriptive et visuelle du dataset.
 
 ### 📊 4.1 Statistiques descriptives  
+<img src="1.png" style="height:464px;margin-right:432px"/>
 Les valeurs montrent notamment :
 
 - Une forte dispersion pour **votes**  
 - Des notes (**rating**) majoritairement élevées (entre 7 et 9)  
 - Une distribution large sur **popularity**
 
-### 🔥 4.2 Matrice de corrélation  
+### 🔥 4.2 Matrice de corrélation 
+<img src="2.png" style="height:464px;margin-right:432px"/>
 La heatmap révèle :
 
 - Une corrélation positive entre **popularity** et **rating**  
@@ -87,10 +89,22 @@ La heatmap révèle :
 - Un impact modéré de **premiere_year** sur le rating  
 
 ### 📈 4.3 Évolution du rating au fil des années  
+<img src="3.png.png" style="height:464px;margin-right:432px"/>
 La tendance générale montre une **légère amélioration des ratings** pour les séries récentes.
 
 Ces analyses visuelles confirment l’importance des variables retenues pour le modèle.
 
+### 📈 4.4 Évolution du Rating moyen par Année
+
+<img src="4.png" style="height:464px;margin-right:432px"/>
+
+Analyse :
+
+- Les ratings ont connu des oscillations marquées dans les années 1960–1980  
+- À partir de 1990, les notes deviennent **plus stables**  
+- Depuis 2000, les séries obtiennent globalement des ratings entre **7.7 et 8.0**
+
+Cela reflète une **standardisation qualitative** des productions modernes.
 ---
 
 ## 5. Séparation des Données (Train/Test)
