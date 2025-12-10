@@ -89,7 +89,7 @@ La heatmap révèle :
 - Un impact modéré de **premiere_year** sur le rating  
 
 ### 📈 4.3 Évolution du rating au fil des années  
-<img src="3.png.png" style="height:464px;margin-right:432px"/>
+<img src="3.png" style="height:464px;margin-right:432px"/>
 La tendance générale montre une **légère amélioration des ratings** pour les séries récentes.
 
 Ces analyses visuelles confirment l’importance des variables retenues pour le modèle.
